@@ -2,35 +2,29 @@
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8">
-  <title>ao yaksha wallpapers</title>
-  <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-
-    body {
-      background-image: url('minimalist-spiderman-3840x2160.jpg'); /* espadachim caido */
-      background-size: cover;
-      background-position: center;
-      height: 100vh;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-family: Arial, sans-serif;
-      color: white;
-      text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.7);
-    }
-
-    h1 {
-      background: rgba(0, 0, 0, 0.5);
-      padding: 20px 40px;
-      border-radius: 20px;
-    }
-  </style>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Yaksha Wall</title>
+  <link rel="stylesheet" href="assets/css/styles.css">
 </head>
 <body>
-  <h1>Bem-vindo ao yaksha wallpapers!</h1>
+  <header>
+    <h1>Yaksha Wall</h1>
+  </header>
+
+  <section class="gallery">
+    <!-- Exemplo de um card de wallpaper -->
+    <div class="wallpaper-card">
+      <video autoplay loop muted class="wallpaper-video">
+        <source src="assets/videos/exemplo.webm" type="video/webm">
+        Seu navegador não suporta vídeos em formato WebM.
+      </video>
+      <div class="wallpaper-info">
+        <h3>Nome do Wallpaper</h3>
+        <a href="assets/videos/exemplo.webm" download>Download</a>
+      </div>
+    </div>
+    <!-- Adicione mais cards conforme necessário -->
+  </section>
 </body>
 </html>
+
