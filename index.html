@@ -29,11 +29,31 @@
 
     .title-bar {
       background-color: #1e1e1e;
-      padding: 40px 0;
-      text-align: center;
+      padding: 20px 20px;
       margin-bottom: 30px;
       box-shadow: 0 4px 8px rgba(0,0,0,0.2);
       width: 100%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .user-panel {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .user-name {
+      font-size: 16px;
+      font-weight: bold;
+      color: #fff;
+    }
+
+    .user-avatar {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
     }
 
     .footer-bar {
@@ -99,11 +119,6 @@
       background-color: #008ba3;
     }
 
-    .auth-buttons {
-      text-align: center;
-      margin: 20px;
-    }
-
     #loginBtn {
       padding: 12px 30px;
       background: linear-gradient(135deg, #00c6ff, #0072ff);
@@ -111,7 +126,7 @@
       border-radius: 50px;
       color: white;
       font-weight: bold;
-      font-size: 18px;
+      font-size: 14px;
       cursor: pointer;
       box-shadow: 0 4px 15px rgba(0, 198, 255, 0.4);
       transition: all 0.3s ease;
@@ -129,7 +144,7 @@
       border-radius: 30px;
       color: white;
       font-weight: bold;
-      font-size: 16px;
+      font-size: 14px;
       cursor: pointer;
       transition: background 0.3s, transform 0.2s;
     }
@@ -137,11 +152,6 @@
     #logoutBtn:hover {
       background: #555;
       transform: scale(1.05);
-    }
-
-    #user-info {
-      text-align: center;
-      margin-bottom: 10px;
     }
 
     #topBtn {
@@ -168,12 +178,12 @@
 
   <div class="title-bar">
     <h1>YAKSHA WALLPAPER'S</h1>
-  </div>
-
-  <div class="auth-buttons">
-    <div id="user-info"></div>
-    <button id="loginBtn" onclick="signIn()">Entrar com Google</button>
-    <button id="logoutBtn" onclick="signOut()" style="display:none;">Sair</button>
+    <div class="user-panel" id="userPanel">
+      <span class="user-name" id="userName"></span>
+      <img src="" alt="Avatar" class="user-avatar" id="userAvatar" style="display:none;">
+      <button id="loginBtn" onclick="signIn()">Entrar com Google</button>
+      <button id="logoutBtn" onclick="signOut()" style="display:none;">Sair</button>
+    </div>
   </div>
 
   <h2>WALLPAPER</h2>
@@ -223,16 +233,20 @@
     }
 
     auth.onAuthStateChanged(user => {
-      const userInfo = document.getElementById("user-info");
+      const userName = document.getElementById("userName");
+      const userAvatar = document.getElementById("userAvatar");
       const loginBtn = document.getElementById("loginBtn");
       const logoutBtn = document.getElementById("logoutBtn");
 
       if (user) {
-        userInfo.innerHTML = `Olá, ${user.displayName}`;
+        userName.textContent = user.displayName;
+        userAvatar.src = user.photoURL;
+        userAvatar.style.display = "block";
         loginBtn.style.display = "none";
         logoutBtn.style.display = "inline-block";
       } else {
-        userInfo.innerHTML = "";
+        userName.textContent = "";
+        userAvatar.style.display = "none";
         loginBtn.style.display = "inline-block";
         logoutBtn.style.display = "none";
       }
