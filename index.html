@@ -4,6 +4,9 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>YAKSHA WALLPAPERS</title>
+  <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js"></script>
   <style>
     body {
       font-family: Arial, sans-serif;
@@ -79,17 +82,25 @@
       margin-bottom: 10px;
     }
 
-    .download-btn {
+    .download-btn, .like-btn {
       display: inline-block;
       padding: 8px 12px;
+      margin: 5px;
       background-color: #00bcd4;
       color: #fff;
       text-decoration: none;
+      border: none;
       border-radius: 5px;
+      cursor: pointer;
     }
 
-    .download-btn:hover {
+    .download-btn:hover, .like-btn:hover {
       background-color: #008ba3;
+    }
+
+    .auth-buttons {
+      text-align: center;
+      margin: 20px;
     }
 
     #topBtn {
@@ -118,42 +129,98 @@
     <h1>YAKSHA WALLPAPER'S</h1>
   </div>
 
-  <h2>WALLPAPER</h2>
-  <div class="gallery">
-    <div class="card"><img src="imagem1.jpg" alt=""><div class="card-content"><a class="download-btn" href="imagem1.jpg" download>Baixar</a></div></div>
-    <div class="card"><img src="imagem2.jpg" alt=""><div class="card-content"><a class="download-btn" href="imagem2.jpg" download>Baixar</a></div></div>
-    <div class="card"><img src="imagem3.jpg" alt=""><div class="card-content"><a class="download-btn" href="imagem3.jpg" download>Baixar</a></div></div>
-    <div class="card"><img src="imagem4.jpg" alt=""><div class="card-content"><a class="download-btn" href="imagem4.jpg" download>Baixar</a></div></div>
-    <div class="card"><img src="imagem5.png" alt=""><div class="card-content"><a class="download-btn" href="imagem5.png" download>Baixar</a></div></div>
-    <div class="card"><img src="imagem6.png" alt=""><div class="card-content"><a class="download-btn" href="imagem6.png" download>Baixar</a></div></div>
-    <div class="card"><img src="imagem7.png" alt=""><div class="card-content"><a class="download-btn" href="imagem7.png" download>Baixar</a></div></div>
-    <div class="card"><img src="imagem8.png" alt=""><div class="card-content"><a class="download-btn" href="imagem8.png" download>Baixar</a></div></div>
-    <div class="card"><img src="imagem9.png" alt=""><div class="card-content"><a class="download-btn" href="imagem9.png" download>Baixar</a></div></div>
-    <div class="card"><img src="imagem10.jpg" alt=""><div class="card-content"><a class="download-btn" href="imagem10.jpg" download>Baixar</a></div></div>
-    <div class="card"><img src="imagem11.jpg" alt=""><div class="card-content"><a class="download-btn" href="imagem11.jpg" download>Baixar</a></div></div>
-    <div class="card"><img src="imagem12.png" alt=""><div class="card-content"><a class="download-btn" href="imagem12.png" download>Baixar</a></div></div>
-    <div class="card"><img src="imagem13.webp" alt=""><div class="card-content"><a class="download-btn" href="imagem13.webp" download>Baixar</a></div></div>
-    <div class="card"><img src="imagem14.png" alt=""><div class="card-content"><a class="download-btn" href="imagem14.png" download>Baixar</a></div></div>
+  <div class="auth-buttons">
+    <button onclick="signIn()">Login</button>
+    <button onclick="signOut()">Logout</button>
   </div>
 
+  <h2>WALLPAPER</h2>
+  <div class="gallery" id="gallery-wallpaper"></div>
+
   <h2>ICONS</h2>
-  <div class="gallery">
-    <div class="card"><img src="imagem15.jpg" alt=""><div class="card-content"><a class="download-btn" href="imagem15.jpg" download>Baixar</a></div></div>
-    <div class="card"><img src="imagem16.jpg" alt=""><div class="card-content"><a class="download-btn" href="imagem16.jpg" download>Baixar</a></div></div>
-    <div class="card"><img src="imagem17.jpg" alt=""><div class="card-content"><a class="download-btn" href="imagem17.jpg" download>Baixar</a></div></div>
-    <div class="card"><img src="imagem18.jpg" alt=""><div class="card-content"><a class="download-btn" href="imagem18.jpg" download>Baixar</a></div></div>
-    <div class="card"><img src="imagem19.jpg" alt=""><div class="card-content"><a class="download-btn" href="imagem19.jpg" download>Baixar</a></div></div>
-    <div class="card"><img src="imagem20.jpg" alt=""><div class="card-content"><a class="download-btn" href="imagem20.jpg" download>Baixar</a></div></div>
-    <div class="card"><img src="imagem21.jpg" alt=""><div class="card-content"><a class="download-btn" href="imagem21.jpg" download>Baixar</a></div></div>
-    <div class="card"><img src="imagem22.jpg" alt=""><div class="card-content"><a class="download-btn" href="imagem22.jpg" download>Baixar</a></div></div>
-    <div class="card"><img src="imagem23.jpg" alt=""><div class="card-content"><a class="download-btn" href="imagem23.jpg" download>Baixar</a></div></div>
-    <div class="card"><img src="imagem24.jpg" alt=""><div class="card-content"><a class="download-btn" href="imagem24.jpg" download>Baixar</a></div></div>
-    <div class="card"><img src="imagem25.jpg" alt=""><div class="card-content"><a class="download-btn" href="imagem25.jpg" download>Baixar</a></div></div>
-  </div>
+  <div class="gallery" id="gallery-icons"></div>
 
   <button id="topBtn" onclick="scrollToTop()">Voltar ao Topo</button>
 
+  <footer class="footer-bar">
+    © 2025 Yaksha Wallpaper. Todos os direitos reservados.
+  </footer>
+
   <script>
+    const firebaseConfig = {
+      apiKey: "SUA_API_KEY",
+      authDomain: "SEU_DOMINIO.firebaseapp.com",
+      projectId: "SEU_PROJECT_ID",
+      storageBucket: "SEU_BUCKET.appspot.com",
+      messagingSenderId: "SENDER_ID",
+      appId: "APP_ID"
+    };
+
+    firebase.initializeApp(firebaseConfig);
+    const auth = firebase.auth();
+    const db = firebase.firestore();
+
+    function signIn() {
+      const provider = new firebase.auth.GoogleAuthProvider();
+      auth.signInWithPopup(provider);
+    }
+
+    function signOut() {
+      auth.signOut();
+    }
+
+    const wallpapers = [
+      "imagem1.jpg", "imagem2.jpg", "imagem3.jpg", "imagem4.jpg", "imagem5.png", "imagem6.png",
+      "imagem7.png", "imagem8.png", "imagem9.png", "imagem10.jpg", "imagem11.jpg", "imagem12.png",
+      "imagem13.webp", "imagem14.png"
+    ];
+
+    const icons = [
+      "imagem15.jpg", "imagem16.jpg", "imagem17.jpg", "imagem18.jpg", "imagem19.jpg", "imagem20.jpg",
+      "imagem21.jpg", "imagem22.jpg", "imagem23.jpg", "imagem24.jpg", "imagem25.jpg"
+    ];
+
+    function renderGallery(images, containerId) {
+      const container = document.getElementById(containerId);
+      images.forEach(image => {
+        const card = document.createElement("div");
+        card.className = "card";
+
+        card.innerHTML = `
+          <img src="${image}" alt="">
+          <div class="card-content">
+            <a class="download-btn" href="${image}" download>Baixar</a>
+            <button class="like-btn" onclick="likeImage('${image}')">Curtir ❤️</button>
+          </div>
+        `;
+
+        container.appendChild(card);
+      });
+    }
+
+    function likeImage(imageId) {
+      const user = auth.currentUser;
+      if (!user) {
+        alert("Você precisa estar logado para curtir.");
+        return;
+      }
+      const likeRef = db.collection("likes").doc(imageId);
+
+      likeRef.get().then(doc => {
+        if (doc.exists && doc.data().users.includes(user.uid)) {
+          alert("Você já curtiu esta imagem.");
+        } else {
+          likeRef.set({
+            users: firebase.firestore.FieldValue.arrayUnion(user.uid)
+          }, { merge: true });
+          alert("Imagem curtida com sucesso!");
+        }
+      });
+    }
+
+    renderGallery(wallpapers, "gallery-wallpaper");
+    renderGallery(icons, "gallery-icons");
+
     window.onscroll = function () {
       const btn = document.getElementById("topBtn");
       if (document.body.scrollTop > 200 || document.documentElement.scrollTop > 200) {
@@ -167,10 +234,6 @@
       window.scrollTo({ top: 0, behavior: 'smooth' });
     }
   </script>
-
-  <footer class="footer-bar">
-    © 2025 Yaksha Wallpaper. Todos os direitos reservados.
-  </footer>
 
 </body>
 </html>
