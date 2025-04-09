@@ -103,6 +103,11 @@
       margin: 20px;
     }
 
+    #user-info {
+      text-align: center;
+      margin-bottom: 10px;
+    }
+
     #topBtn {
       position: fixed;
       bottom: 30px;
@@ -130,8 +135,9 @@
   </div>
 
   <div class="auth-buttons">
-    <button onclick="signIn()">Login</button>
-    <button onclick="signOut()">Logout</button>
+    <div id="user-info"></div>
+    <button id="loginBtn" onclick="signIn()">Login</button>
+    <button id="logoutBtn" onclick="signOut()" style="display:none;">Logout</button>
   </div>
 
   <h2>WALLPAPER</h2>
@@ -148,14 +154,14 @@
 
   <script>
     const firebaseConfig = {
-  apiKey: "AIzaSyDBsoFDMsioHhBhnsb4t01n_iOMEHcM_fA",
-  authDomain: "yaksha-wallpapers.firebaseapp.com",
-  projectId: "yaksha-wallpapers",
-  storageBucket: "yaksha-wallpapers.firebasestorage.app",
-  messagingSenderId: "349814742766",
-  appId: "1:349814742766:web:51e50e38d69c4d63599dff",
-  measurementId: "G-ZFDL529B5J"
-};
+      apiKey: "AIzaSyDBsoFDMsioHhBhnsb4t01n_iOMEHcM_fA",
+      authDomain: "yaksha-wallpapers.firebaseapp.com",
+      projectId: "yaksha-wallpapers",
+      storageBucket: "yaksha-wallpapers.firebasestorage.app",
+      messagingSenderId: "349814742766",
+      appId: "1:349814742766:web:51e50e38d69c4d63599dff",
+      measurementId: "G-ZFDL529B5J"
+    };
 
     firebase.initializeApp(firebaseConfig);
     const auth = firebase.auth();
@@ -163,12 +169,38 @@
 
     function signIn() {
       const provider = new firebase.auth.GoogleAuthProvider();
-      auth.signInWithPopup(provider);
+      auth.signInWithPopup(provider)
+        .then((result) => {
+          const user = result.user;
+          db.collection("users").doc(user.uid).set({
+            displayName: user.displayName,
+            email: user.email,
+            photoUrl: user.photoURL,
+            createdAt: firebase.firestore.FieldValue.serverTimestamp()
+          }, { merge: true });
+        })
+        .catch(error => console.error(error));
     }
 
     function signOut() {
       auth.signOut();
     }
+
+    auth.onAuthStateChanged(user => {
+      const userInfo = document.getElementById("user-info");
+      const loginBtn = document.getElementById("loginBtn");
+      const logoutBtn = document.getElementById("logoutBtn");
+
+      if (user) {
+        userInfo.innerHTML = `Olá, ${user.displayName}`;
+        loginBtn.style.display = "none";
+        logoutBtn.style.display = "inline-block";
+      } else {
+        userInfo.innerHTML = "";
+        loginBtn.style.display = "inline-block";
+        logoutBtn.style.display = "none";
+      }
+    });
 
     const wallpapers = [
       "imagem1.jpg", "imagem2.jpg", "imagem3.jpg", "imagem4.jpg", "imagem5.png", "imagem6.png",
@@ -208,7 +240,7 @@
       const likeRef = db.collection("likes").doc(imageId);
 
       likeRef.get().then(doc => {
-        if (doc.exists && doc.data().users.includes(user.uid)) {
+        if (doc.exists && doc.data().users?.includes(user.uid)) {
           alert("Você já curtiu esta imagem.");
         } else {
           likeRef.set({
