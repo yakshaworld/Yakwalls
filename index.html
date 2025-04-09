@@ -25,6 +25,10 @@
       align-items: center;
     }
 
+    .logo {
+      height: 40px;
+    }
+
     .user-panel {
       display: flex;
       align-items: center;
@@ -133,7 +137,7 @@
 </head>
 <body>
   <div class="title-bar">
-    <h1>YAKSHA WALLPAPER'S</h1>
+    <img src="logo.png" alt="Yaksha Wallpapers" class="logo">
     <div class="user-panel" id="userPanel">
       <span class="user-name" id="userName"></span>
       <img src="" alt="Avatar" class="user-avatar" id="userAvatar" style="display:none;">
@@ -185,6 +189,7 @@
         document.getElementById('logoutBtn').style.display = 'inline-block';
       }).catch(error => {
         alert('Erro ao fazer login: ' + error.message);
+        console.error(error);
       });
     }
 
