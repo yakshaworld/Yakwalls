@@ -280,3 +280,80 @@
 </div>
   
 </div>
+
+<!-- Botão de voltar ao topo -->
+<button id="topBtn" onclick="scrollToTop()">Voltar ao Topo</button>
+
+<style>
+  #topBtn {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    z-index: 99;
+    font-size: 16px;
+    padding: 10px 15px;
+    border: none;
+    background-color: #00bcd4;
+    color: white;
+    border-radius: 8px;
+    cursor: pointer;
+    display: none;
+  }
+
+  #topBtn:hover {
+    background-color: #008ba3;
+  }
+</style>
+
+<script>
+  // Mostrar o botão quando rolar
+  window.onscroll = function () {
+    const btn = document.getElementById("topBtn");
+    if (document.body.scrollTop > 200 || document.documentElement.scrollTop > 200) {
+      btn.style.display = "block";
+    } else {
+      btn.style.display = "none";
+    }
+  };
+
+  // Função para rolar suavemente até o topo
+  function scrollToTop() {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+</script>
+
+#topBtn {
+  position: fixed;
+  bottom: 30px;
+  right: 30px;
+  z-index: 99;
+  font-size: 16px;
+  padding: 10px 15px;
+  border: none;
+  background-color: #00bcd4;
+  color: white;
+  border-radius: 8px;
+  cursor: pointer;
+  display: none;
+}
+
+#topBtn:hover {
+  background-color: #008ba3;
+}
+
+<script>
+  // Mostrar o botão quando a página for rolada
+  window.onscroll = function () {
+    const btn = document.getElementById("topBtn");
+    if (document.body.scrollTop > 200 || document.documentElement.scrollTop > 200) {
+      btn.style.display = "block";
+    } else {
+      btn.style.display = "none";
+    }
+  };
+
+  // Função para voltar ao topo
+  function scrollToTop() {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+</script>
