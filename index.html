@@ -12,11 +12,12 @@
     body {
       margin: 0;
       font-family: Arial, sans-serif;
-      background-color: #f3f3f3;
+      background-color: #000;
+      color: white;
     }
 
     .title-bar {
-      background-color: #333;
+      background-color: #222;
       color: white;
       padding: 10px 20px;
       display: flex;
@@ -24,10 +25,15 @@
       align-items: center;
     }
 
+    .logo {
+      height: 40px;
+    }
+
     .user-panel {
       display: flex;
-      align-items: center;
-      gap: 10px;
+      flex-direction: column;
+      align-items: flex-end;
+      gap: 5px;
     }
 
     .user-name {
@@ -40,6 +46,25 @@
       border-radius: 50%;
     }
 
+    #loginBtn, #logoutBtn {
+      padding: 6px 12px;
+      background-color: #007bff;
+      border: none;
+      border-radius: 4px;
+      color: white;
+      cursor: pointer;
+    }
+
+    #loginBtn:hover, #logoutBtn:hover {
+      background-color: #0056b3;
+    }
+
+    h2 {
+      text-align: center;
+      margin-top: 40px;
+      color: white;
+    }
+
     .gallery {
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
@@ -48,9 +73,9 @@
     }
 
     .card {
-      background: white;
+      background: #111;
       padding: 10px;
-      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+      box-shadow: 0 2px 5px rgba(0,0,0,0.5);
       border-radius: 8px;
       text-align: center;
     }
@@ -66,7 +91,7 @@
 
     .download-btn, .like-btn {
       display: inline-block;
-      margin: 5px;
+      margin: 5px auto;
       padding: 8px 12px;
       border: none;
       border-radius: 4px;
@@ -81,7 +106,7 @@
     }
 
     .footer-bar {
-      background-color: #222;
+      background-color: #111;
       color: white;
       text-align: center;
       padding: 15px;
@@ -113,7 +138,7 @@
 </head>
 <body>
   <div class="title-bar">
-    <h1>YAKSHA WALLPAPER'S</h1>
+    <img src="logo.png" alt="Yaksha Wallpapers" class="logo">
     <div class="user-panel" id="userPanel">
       <span class="user-name" id="userName"></span>
       <img src="" alt="Avatar" class="user-avatar" id="userAvatar" style="display:none;">
@@ -121,8 +146,6 @@
       <button id="logoutBtn" onclick="signOut()" style="display:none;">Sair</button>
     </div>
   </div>
-
-  
 
   <h2>WALLPAPER</h2>
   <div class="gallery" id="gallery-wallpaper"></div>
@@ -145,15 +168,13 @@
 
   <script>
     const firebaseConfig = {
-      apiKey: "AIzaSyDBsoFDMsioHhBhnsb4t01n_iOMEHcM_fA",
-      authDomain: "yaksha-wallpapers.firebaseapp.com",
-      projectId: "yaksha-wallpapers",
-      storageBucket: "yaksha-wallpapers.appspot.com",
+      apiKey: "AIzaSyDovLKo3djdRbs963vqKdbj-geRWyzMTrg",
+      authDomain: "yakwalls.firebaseapp.com",
+      projectId: "yakwalls",
+      storageBucket: "yakwalls.appspot.com",
       messagingSenderId: "349814742766",
-      appId: "1:349814742766:web:51e50e38d69c4d63599dff",
-      measurementId: "G-ZFDL529B5J"
+      appId: "1:349814742766:web:4dba77345829cd68f7c0bc"
     };
-    
     firebase.initializeApp(firebaseConfig);
     const auth = firebase.auth();
     const db = firebase.firestore();
@@ -167,6 +188,9 @@
         document.getElementById('userAvatar').style.display = 'block';
         document.getElementById('loginBtn').style.display = 'none';
         document.getElementById('logoutBtn').style.display = 'inline-block';
+      }).catch(error => {
+        alert('Erro ao fazer login: ' + error.message);
+        console.error(error);
       });
     }
 
