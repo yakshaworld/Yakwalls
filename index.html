@@ -78,25 +78,6 @@
       background-color: #0056b3;
     }
 
-    .tabs {
-      display: flex;
-      justify-content: center;
-      background-color: #222;
-    }
-
-    .tab-btn {
-      padding: 10px 20px;
-      background: none;
-      border: none;
-      color: white;
-      font-weight: bold;
-      cursor: pointer;
-    }
-
-    .tab-btn.active {
-      background-color: #007bff;
-    }
-
     .gallery {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
@@ -220,24 +201,29 @@
       <span>WALLPAPERS</span>
     </div>
     <div class="auth-buttons">
-      <button class="auth-btn" onclick="openRegisterModal()">Criar Conta</button>
-      <button class="auth-btn" onclick="openLoginModal()">Login</button>
+      <button class="auth-btn" onclick="openRegisterModal()" id="registerBtn">Criar Conta</button>
+      <button class="auth-btn" onclick="openLoginModal()" id="loginBtn">Login</button>
+      <button class="auth-btn" id="logoutBtn" onclick="logoutUser()" style="display:none;">Sair</button>
       <div id="userProfile" style="display:none; color:#0f0; font-weight:bold; padding:8px 10px;"></div>
     </div>
   </div>
 
-  <div class="tabs">
-    <button class="tab-btn active" onclick="showTab('wallpapers')">Wallpapers</button>
-    <button class="tab-btn" onclick="showTab('icons')">Icons</button>
+  <div class="gallery">
+    <div class="card" onclick="openImage('wallpaper1.jpg')">
+      <img src="wallpaper1.jpg" alt="Wallpaper 1">
+    </div>
+    <div class="card" onclick="openImage('wallpaper2.jpg')">
+      <img src="wallpaper2.jpg" alt="Wallpaper 2">
+    </div>
+    <div class="card" onclick="openImage('wallpaper3.jpg')">
+      <img src="wallpaper3.jpg" alt="Wallpaper 3">
+    </div>
   </div>
 
-  <div id="wallpapers" class="gallery"></div>
-  <div id="icons" class="gallery" style="display:none;"></div>
-
-  <div id="imageModal">
-    <img id="modalImage" src="" alt="Imagem em tela cheia">
-    <a id="downloadBtn" href="" download>Baixar</a>
-    <button id="closeBtn" onclick="closeModal()">Fechar</button>
+  <div id="imageModal" onclick="closeImage()">
+    <img id="modalImage" src="" alt="Preview">
+    <a id="downloadBtn" href="#" download>Baixar</a>
+    <button id="closeBtn">Fechar</button>
   </div>
 
   <div class="modal-overlay" id="registerModal">
@@ -261,49 +247,6 @@
   </div>
 
   <script>
-    const wallpapers = [
-      "imagem1.jpg", "imagem2.jpg", "imagem3.jpg", "imagem4.jpg", "imagem5.png", "imagem6.png",
-      "imagem7.png", "imagem8.png", "imagem9.png", "imagem10.jpg", "imagem11.jpg", "imagem12.png",
-      "imagem13.webp", "imagem14.png", "imagem26.webp", "imagem27.jpg", "imagem28.jpg", "imagem29.jpg",
-      "imagem30.jpg", "imagem31.jpg"
-    ];
-
-    const icons = [
-      "imagem15.jpg", "imagem16.jpg", "imagem17.jpg", "imagem18.jpg", "imagem19.jpg", "imagem20.jpg",
-      "imagem21.jpg", "imagem22.jpg", "imagem23.jpg", "imagem24.jpg", "imagem25.jpg", "imagem32.webp", 
-      "imagem33.jpg", "imagem34.jpeg", "imagem35.jpg", "imagem36.jpg"
-    ];
-
-    function renderGallery(images, containerId) {
-      const container = document.getElementById(containerId);
-      container.innerHTML = '';
-      images.forEach(src => {
-        const card = document.createElement('div');
-        card.className = 'card';
-        card.innerHTML = `<img src="${src}" alt="Imagem">`;
-        card.onclick = () => openModal(src);
-        container.appendChild(card);
-      });
-    }
-
-    function showTab(tabId) {
-      document.getElementById("wallpapers").style.display = tabId === "wallpapers" ? "grid" : "none";
-      document.getElementById("icons").style.display = tabId === "icons" ? "grid" : "none";
-      document.querySelectorAll(".tab-btn").forEach(btn => btn.classList.remove("active"));
-      const activeBtn = [...document.querySelectorAll(".tab-btn")].find(btn => btn.textContent.toLowerCase().includes(tabId));
-      if (activeBtn) activeBtn.classList.add("active");
-    }
-
-    function openModal(src) {
-      document.getElementById('modalImage').src = src;
-      document.getElementById('downloadBtn').href = src;
-      document.getElementById('imageModal').style.display = 'flex';
-    }
-
-    function closeModal() {
-      document.getElementById('imageModal').style.display = 'none';
-    }
-
     function openRegisterModal() {
       document.getElementById("registerModal").style.display = "flex";
     }
@@ -342,14 +285,34 @@
         alert("Login bem-sucedido!");
         document.getElementById("userProfile").textContent = "Bem-vindo, " + username;
         document.getElementById("userProfile").style.display = "block";
+        document.getElementById("logoutBtn").style.display = "inline-block";
+        document.getElementById("loginBtn").style.display = "none";
+        document.getElementById("registerBtn").style.display = "none";
         closeLoginModal();
       } else {
         alert("Usuário ou senha incorretos!");
       }
     }
 
-    renderGallery(wallpapers, 'wallpapers');
-    renderGallery(icons, 'icons');
+    function logoutUser() {
+      document.getElementById("userProfile").style.display = "none";
+      document.getElementById("logoutBtn").style.display = "none";
+      document.getElementById("loginBtn").style.display = "inline-block";
+      document.getElementById("registerBtn").style.display = "inline-block";
+    }
+
+    function openImage(src) {
+      const modal = document.getElementById("imageModal");
+      const image = document.getElementById("modalImage");
+      const downloadLink = document.getElementById("downloadBtn");
+      image.src = src;
+      downloadLink.href = src;
+      modal.style.display = "flex";
+    }
+
+    function closeImage() {
+      document.getElementById("imageModal").style.display = "none";
+    }
   </script>
 </body>
 </html>
