@@ -17,21 +17,11 @@
       color: white;
       padding: 10px 20px;
       text-align: center;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
     }
-
-    .title-bar h1 {
-    background: linear-gradient(90deg, red, blue, red);
-    background-size: 300% 100%;
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    animation: animateTitle 4s ease infinite;
-  }
-
-  @keyframes animateTitle {
-    0% { background-position: 0% 50%; }
-    50% { background-position: 100% 50%; }
-    100% { background-position: 0% 50%; }
-  }
 
     .tabs {
       display: flex;
@@ -140,6 +130,7 @@
 <body>
 
   <div class="title-bar">
+    <img src="logo.gif" alt="Logo animada" style="height: 50px;">
     <h1>YAKSHA WALLPAPERS</h1>
   </div>
 
