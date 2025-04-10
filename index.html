@@ -16,11 +16,22 @@
       background-color: #111;
       color: white;
       padding: 10px 20px;
-      text-align: center;
       display: flex;
       align-items: center;
-      justify-content: center;
-      gap: 10px;
+      justify-content: space-between;
+      position: relative;
+    }
+
+    .title-bar img {
+      height: 80px;
+    }
+
+    .title-bar h1 {
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+      margin: 0;
+      font-size: 24px;
     }
 
     .tabs {
@@ -130,7 +141,7 @@
 <body>
 
   <div class="title-bar">
-    <img src="logo.gif" alt="Logo animada" style="height: 50px;">
+    <img src="logo.gif" alt="Logo animada">
     <h1>YAKSHA WALLPAPERS</h1>
   </div>
 
