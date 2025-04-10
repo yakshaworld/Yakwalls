@@ -1,118 +1,131 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>yaksha wallpapers - conheça os melhores wallpapers da atualidade na melhor qualidade</title>
-  <!-- Firebase versão compatível com sintaxe antiga -->
-  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
   <style>
-  body {
-    margin: 0;
-    font-family: Arial, sans-serif;
-    background-color: #000;
-    color: white;
-  }
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background-color: #000;
+      color: white;
+    }
 
-  .title-bar {
-    background-color: #111;
-    color: white;
-    padding: 10px 20px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-  }
+    .title-bar {
+      background-color: #111;
+      color: white;
+      padding: 10px 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
 
-  .user-panel {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-  }
+    .user-panel {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
 
-  .user-name {
-    font-weight: bold;
-  }
+    .user-name {
+      font-weight: bold;
+    }
 
-  .user-avatar {
-    width: 32px;
-    height: 32px;
-    border-radius: 50%;
-  }
+    .user-avatar {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+    }
 
-.gallery {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 20px;
-  padding: 20px;
-}
+    .gallery {
+      display: grid;
+      grid-template-columns: repeat(1, 1fr);
+      gap: 20px;
+      padding: 20px;
+    }
 
-  .card {
-    background: #1a1a1a;
-    padding: 10px;
-    box-shadow: 0 2px 5px rgba(255, 255, 255, 0.05);
-    border-radius: 8px;
-    text-align: center;
-    color: white;
-  }
+    @media (min-width: 600px) {
+      .gallery {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
 
-  .card img {
-    max-width: 100%;
-    border-radius: 8px;
-  }
+    @media (min-width: 900px) {
+      .gallery {
+        grid-template-columns: repeat(3, 1fr);
+      }
+    }
 
-  .card-content {
-    margin-top: 10px;
-  }
+    @media (min-width: 1200px) {
+      .gallery {
+        grid-template-columns: repeat(4, 1fr);
+      }
+    }
 
-  .download-btn, .like-btn {
-    display: inline-block;
-    margin: 5px;
-    padding: 8px 12px;
-    border: none;
-    border-radius: 4px;
-    background-color: #007bff;
-    color: white;
-    cursor: pointer;
-    text-decoration: none;
-  }
+    .card {
+      background: #1a1a1a;
+      padding: 10px;
+      box-shadow: 0 2px 5px rgba(255, 255, 255, 0.05);
+      border-radius: 8px;
+      text-align: center;
+      color: white;
+    }
 
-  .download-btn:hover, .like-btn:hover {
-    background-color: #0056b3;
-  }
+    .card img {
+      max-width: 100%;
+      border-radius: 8px;
+    }
 
-  .footer-bar {
-    background-color: #111;
-    color: white;
-    text-align: center;
-    padding: 15px;
-  }
+    .card-content {
+      margin-top: 10px;
+    }
 
-  .footer-links a {
-    color: white;
-    margin: 0 10px;
-    text-decoration: none;
-  }
+    .download-btn {
+      display: inline-block;
+      margin: 5px;
+      padding: 8px 12px;
+      border: none;
+      border-radius: 4px;
+      background-color: #007bff;
+      color: white;
+      cursor: pointer;
+      text-decoration: none;
+    }
 
-  #topBtn {
-    position: fixed;
-    bottom: 30px;
-    right: 30px;
-    display: none;
-    background-color: #007bff;
-    color: white;
-    border: none;
-    padding: 10px;
-    border-radius: 5px;
-    cursor: pointer;
-  }
+    .download-btn:hover {
+      background-color: #0056b3;
+    }
 
-  #topBtn:hover {
-    background-color: #0056b3;
-  }
-</style>
+    .footer-bar {
+      background-color: #111;
+      color: white;
+      text-align: center;
+      padding: 15px;
+    }
 
+    .footer-links a {
+      color: white;
+      margin: 0 10px;
+      text-decoration: none;
+    }
+
+    #topBtn {
+      position: fixed;
+      bottom: 30px;
+      right: 30px;
+      display: none;
+      background-color: #007bff;
+      color: white;
+      border: none;
+      padding: 10px;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    #topBtn:hover {
+      background-color: #0056b3;
+    }
+  </style>
 </head>
 <body>
   <div class="title-bar">
@@ -125,12 +138,10 @@
     </div>
   </div>
 
-  
-
-  <h2>WALLPAPER</h2>
+  <h2 style="text-align:center">WALLPAPER</h2>
   <div class="gallery" id="gallery-wallpaper"></div>
 
-  <h2>ICONS</h2>
+  <h2 style="text-align:center">ICONS</h2>
   <div class="gallery" id="gallery-icons"></div>
 
   <button id="topBtn" onclick="scrollToTop()">Voltar ao Topo</button>
@@ -146,6 +157,8 @@
     <div>© 2025 Yaksha Wallpaper. Todos os direitos reservados.</div>
   </footer>
 
+  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
   <script>
     const firebaseConfig = {
       apiKey: "AIzaSyDBsoFDMsioHhBhnsb4t01n_iOMEHcM_fA",
@@ -156,10 +169,9 @@
       appId: "1:349814742766:web:51e50e38d69c4d63599dff",
       measurementId: "G-ZFDL529B5J"
     };
-    
+
     firebase.initializeApp(firebaseConfig);
     const auth = firebase.auth();
-    const db = firebase.firestore();
 
     function signIn() {
       const provider = new firebase.auth.GoogleAuthProvider();
@@ -204,39 +216,24 @@
       "imagem21.jpg", "imagem22.jpg", "imagem23.jpg", "imagem24.jpg", "imagem25.jpg"
     ];
 
-    function renderGallerySection(containerId, images, prefix) {
+    function renderGallerySection(containerId, images) {
       const container = document.getElementById(containerId);
       container.innerHTML = '';
       images.forEach((src, index) => {
-        const id = `${prefix}-${index}`;
         const card = document.createElement('div');
         card.className = 'card';
         card.innerHTML = `
           <img src="${src}" alt="Imagem ${index + 1}" />
           <div class="card-content">
             <a class="download-btn" href="${src}" download>Baixar</a>
-            <button class="like-btn" onclick="like('${id}')">Curtir</button>
-            <div class="like-count" id="likes-${id}">0 curtidas</div>
           </div>
         `;
         container.appendChild(card);
       });
     }
 
-    function like(id) {
-      const likeRef = db.collection('likes').doc(id);
-      likeRef.get().then(doc => {
-        let count = 0;
-        if (doc.exists) {
-          count = doc.data().count || 0;
-        }
-        likeRef.set({ count: count + 1 });
-        document.getElementById(`likes-${id}`).textContent = `${count + 1} curtidas`;
-      });
-    }
-
-    renderGallerySection('gallery-wallpaper', wallpapers, 'wallpaper');
-    renderGallerySection('gallery-icons', icons, 'icon');
+    renderGallerySection('gallery-wallpaper', wallpapers);
+    renderGallerySection('gallery-icons', icons);
 
     const topBtn = document.getElementById("topBtn");
     window.onscroll = function () {
