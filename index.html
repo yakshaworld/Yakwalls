@@ -3,9 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>yaksha wallpapers - conheça os melhores wallpapers da atualidade na melhor qualidade</title>
-  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
+  <title>Yaksha Wallpapers</title>
   <style>
     body {
       margin: 0;
@@ -18,25 +16,26 @@
       background-color: #111;
       color: white;
       padding: 10px 20px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
+      text-align: center;
     }
 
-    .user-panel {
+    .tabs {
       display: flex;
-      align-items: center;
-      gap: 10px;
+      justify-content: center;
+      background-color: #222;
     }
 
-    .user-name {
+    .tab-btn {
+      padding: 10px 20px;
+      background: none;
+      border: none;
+      color: white;
       font-weight: bold;
+      cursor: pointer;
     }
 
-    .user-avatar {
-      width: 32px;
-      height: 32px;
-      border-radius: 50%;
+    .tab-btn.active {
+      background-color: #007bff;
     }
 
     .gallery {
@@ -48,173 +47,77 @@
 
     .card {
       background: #1a1a1a;
-      padding: 10px;
       border-radius: 8px;
-      text-align: center;
-      box-shadow: 0 2px 5px rgba(255, 255, 255, 0.05);
+      overflow: hidden;
+      cursor: pointer;
+      transition: transform 0.2s ease;
+    }
+
+    .card:hover {
+      transform: scale(1.02);
     }
 
     .card img {
-      max-width: 100%;
-      border-radius: 8px;
-      cursor: pointer;
+      width: 100%;
+      height: auto;
+      display: block;
     }
 
-    .card-content {
-      margin-top: 10px;
-    }
-
-    .download-btn {
-      display: inline-block;
-      padding: 8px 12px;
-      border: none;
-      border-radius: 4px;
-      background-color: #007bff;
-      color: white;
-      cursor: pointer;
-      text-decoration: none;
-    }
-
-    .download-btn:hover {
-      background-color: #0056b3;
-    }
-
-    .footer-bar {
-      background-color: #111;
-      color: white;
-      text-align: center;
-      padding: 15px;
-    }
-
-    .footer-links a {
-      color: white;
-      margin: 0 10px;
-      text-decoration: none;
-    }
-
-    #topBtn {
-      position: fixed;
-      bottom: 30px;
-      right: 30px;
-      display: none;
-      background-color: #007bff;
-      color: white;
-      border: none;
-      padding: 10px;
-      border-radius: 5px;
-      cursor: pointer;
-    }
-
-    #topBtn:hover {
-      background-color: #0056b3;
-    }
-
-    /* Modal */
-    #wallpaperModal {
+    #imageModal {
       display: none;
       position: fixed;
-      top: 0;
-      left: 0;
-      width: 100vw;
-      height: 100vh;
+      z-index: 9999;
+      top: 0; left: 0;
+      width: 100vw; height: 100vh;
       background-color: rgba(0, 0, 0, 0.9);
       justify-content: center;
       align-items: center;
-      z-index: 1000;
       flex-direction: column;
     }
 
-    #wallpaperModal img {
-      max-width: 90vw;
+    #imageModal img {
+      max-width: 90%;
       max-height: 80vh;
       border-radius: 10px;
       margin-bottom: 20px;
     }
 
-    #wallpaperModal .download-btn {
-      margin-bottom: 10px;
+    #downloadBtn, #closeBtn {
+      background-color: #007bff;
+      color: white;
+      padding: 10px 15px;
+      border: none;
+      border-radius: 5px;
+      margin: 5px;
+      cursor: pointer;
+    }
+
+    #downloadBtn:hover, #closeBtn:hover {
+      background-color: #0056b3;
     }
   </style>
 </head>
 <body>
+
   <div class="title-bar">
-    <h1>YAKSHA WALLPAPER'S</h1>
-    <div class="user-panel" id="userPanel">
-      <span class="user-name" id="userName"></span>
-      <img src="" alt="Avatar" class="user-avatar" id="userAvatar" style="display:none;">
-      <button id="loginBtn" onclick="signIn()">Entrar com Google</button>
-      <button id="logoutBtn" onclick="signOut()" style="display:none;">Sair</button>
-    </div>
+    <h1>Yaksha Wallpapers</h1>
   </div>
 
-  <div class="gallery" id="gallery-wallpaper"></div>
-  <div class="gallery" id="gallery-icons"></div>
-
-  <!-- Modal -->
-  <div id="wallpaperModal">
-    <img id="modalImage" src="" alt="Imagem em destaque" />
-    <a id="downloadLink" href="#" download class="download-btn">Baixar</a>
-    <button onclick="closeModal()" style="background:red; color:white; border:none; padding:10px 20px; border-radius:5px;">Fechar</button>
+  <div class="tabs">
+    <button class="tab-btn active" onclick="showTab('wallpapers')">Wallpapers</button>
+    <button class="tab-btn" onclick="showTab('icons')">Icons</button>
   </div>
 
-  <button id="topBtn" onclick="scrollToTop()">Voltar ao Topo</button>
+  <div id="wallpapers" class="gallery"></div>
+  <div id="icons" class="gallery" style="display:none;"></div>
 
-  <footer class="footer-bar">
-    <div class="footer-links">
-      <a href="index.html">Home</a>
-      <a href="wallpapers.html">Wallpapers</a>
-      <a href="icons.html">Icons</a>
-      <a href="contact.html">Contato</a>
-      <a href="about.html">Sobre</a>
-    </div>
-    <div>© 2025 Yaksha Wallpaper. Todos os direitos reservados.</div>
-  </footer>
+  <div id="imageModal">
+    <img id="modalImage" src="" alt="Imagem em tela cheia">
+    <a id="downloadBtn" href="" download>Baixar</a>
+    <button id="closeBtn" onclick="closeModal()">Fechar</button>
+  </div>
 
   <script>
-    const firebaseConfig = {
-      apiKey: "AIzaSyDBsoFDMsioHhBhnsb4t01n_iOMEHcM_fA",
-      authDomain: "yaksha-wallpapers.firebaseapp.com",
-      projectId: "yaksha-wallpapers",
-      storageBucket: "yaksha-wallpapers.appspot.com",
-      messagingSenderId: "349814742766",
-      appId: "1:349814742766:web:51e50e38d69c4d63599dff",
-      measurementId: "G-ZFDL529B5J"
-    };
-
-    firebase.initializeApp(firebaseConfig);
-    const auth = firebase.auth();
-
-    function signIn() {
-      const provider = new firebase.auth.GoogleAuthProvider();
-      auth.signInWithPopup(provider).then(result => {
-        const user = result.user;
-        document.getElementById('userName').textContent = user.displayName;
-        document.getElementById('userAvatar').src = user.photoURL;
-        document.getElementById('userAvatar').style.display = 'block';
-        document.getElementById('loginBtn').style.display = 'none';
-        document.getElementById('logoutBtn').style.display = 'inline-block';
-      });
-    }
-
-    function signOut() {
-      auth.signOut().then(() => {
-        document.getElementById('userName').textContent = '';
-        document.getElementById('userAvatar').style.display = 'none';
-        document.getElementById('loginBtn').style.display = 'inline-block';
-        document.getElementById('logoutBtn').style.display = 'none';
-      });
-    }
-
-    auth.onAuthStateChanged(user => {
-      if (user) {
-        document.getElementById('userName').textContent = user.displayName;
-        document.getElementById('userAvatar').src = user.photoURL;
-        document.getElementById('userAvatar').style.display = 'block';
-        document.getElementById('loginBtn').style.display = 'none';
-        document.getElementById('logoutBtn').style.display = 'inline-block';
-      }
-    });
-
     const wallpapers = [
       "imagem1.jpg", "imagem2.jpg", "imagem3.jpg", "imagem4.jpg", "imagem5.png", "imagem6.png",
       "imagem7.png", "imagem8.png", "imagem9.png", "imagem10.jpg", "imagem11.jpg", "imagem12.png",
@@ -227,43 +130,38 @@
       "imagem21.jpg", "imagem22.jpg", "imagem23.jpg", "imagem24.jpg", "imagem25.jpg"
     ];
 
-    function renderGallerySection(containerId, images, prefix) {
+    function renderGallery(images, containerId) {
       const container = document.getElementById(containerId);
       container.innerHTML = '';
-      images.forEach((src, index) => {
+      images.forEach(src => {
         const card = document.createElement('div');
         card.className = 'card';
-        card.innerHTML = `
-          <img src="${src}" alt="Imagem ${index + 1}" onclick="openModal('${src}')" />
-          <div class="card-content">
-            <a class="download-btn" href="${src}" download>Baixar</a>
-          </div>
-        `;
+        card.innerHTML = `<img src="${src}" alt="Imagem">`;
+        card.onclick = () => openModal(src);
         container.appendChild(card);
       });
     }
 
-    function openModal(imageSrc) {
-      document.getElementById("modalImage").src = imageSrc;
-      document.getElementById("downloadLink").href = imageSrc;
-      document.getElementById("wallpaperModal").style.display = "flex";
+    function showTab(tabId) {
+      document.getElementById("wallpapers").style.display = tabId === "wallpapers" ? "grid" : "none";
+      document.getElementById("icons").style.display = tabId === "icons" ? "grid" : "none";
+      document.querySelectorAll(".tab-btn").forEach(btn => btn.classList.remove("active"));
+      const activeBtn = [...document.querySelectorAll(".tab-btn")].find(btn => btn.textContent.toLowerCase().includes(tabId));
+      if (activeBtn) activeBtn.classList.add("active");
+    }
+
+    function openModal(src) {
+      document.getElementById('modalImage').src = src;
+      document.getElementById('downloadBtn').href = src;
+      document.getElementById('imageModal').style.display = 'flex';
     }
 
     function closeModal() {
-      document.getElementById("wallpaperModal").style.display = "none";
+      document.getElementById('imageModal').style.display = 'none';
     }
 
-    function scrollToTop() {
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-    }
-
-    window.onscroll = function () {
-      const topBtn = document.getElementById("topBtn");
-      topBtn.style.display = window.scrollY > 100 ? "block" : "none";
-    };
-
-    renderGallerySection('gallery-wallpaper', wallpapers, 'wallpaper');
-    renderGallerySection('gallery-icons', icons, 'icon');
+    renderGallery(wallpapers, 'wallpapers');
+    renderGallery(icons, 'icons');
   </script>
 </body>
 </html>
