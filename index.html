@@ -226,9 +226,20 @@
     </div>
   </div>
 
-  <!-- Resto do conteúdo continua igual -->
-  
-  <!-- Modais de login e registro -->
+  <div class="tabs">
+    <button class="tab-btn active" onclick="showTab('wallpapers')">Wallpapers</button>
+    <button class="tab-btn" onclick="showTab('icons')">Icons</button>
+  </div>
+
+  <div id="wallpapers" class="gallery"></div>
+  <div id="icons" class="gallery" style="display:none;"></div>
+
+  <div id="imageModal">
+    <img id="modalImage" src="" alt="Imagem em tela cheia">
+    <a id="downloadBtn" href="" download>Baixar</a>
+    <button id="closeBtn" onclick="closeModal()">Fechar</button>
+  </div>
+
   <div class="modal-overlay" id="registerModal">
     <div class="modal">
       <span class="modal-close" onclick="closeRegisterModal()">×</span>
@@ -250,6 +261,49 @@
   </div>
 
   <script>
+    const wallpapers = [
+      "imagem1.jpg", "imagem2.jpg", "imagem3.jpg", "imagem4.jpg", "imagem5.png", "imagem6.png",
+      "imagem7.png", "imagem8.png", "imagem9.png", "imagem10.jpg", "imagem11.jpg", "imagem12.png",
+      "imagem13.webp", "imagem14.png", "imagem26.webp", "imagem27.jpg", "imagem28.jpg", "imagem29.jpg",
+      "imagem30.jpg", "imagem31.jpg"
+    ];
+
+    const icons = [
+      "imagem15.jpg", "imagem16.jpg", "imagem17.jpg", "imagem18.jpg", "imagem19.jpg", "imagem20.jpg",
+      "imagem21.jpg", "imagem22.jpg", "imagem23.jpg", "imagem24.jpg", "imagem25.jpg", "imagem32.webp", 
+      "imagem33.jpg", "imagem34.jpeg", "imagem35.jpg", "imagem36.jpg"
+    ];
+
+    function renderGallery(images, containerId) {
+      const container = document.getElementById(containerId);
+      container.innerHTML = '';
+      images.forEach(src => {
+        const card = document.createElement('div');
+        card.className = 'card';
+        card.innerHTML = `<img src="${src}" alt="Imagem">`;
+        card.onclick = () => openModal(src);
+        container.appendChild(card);
+      });
+    }
+
+    function showTab(tabId) {
+      document.getElementById("wallpapers").style.display = tabId === "wallpapers" ? "grid" : "none";
+      document.getElementById("icons").style.display = tabId === "icons" ? "grid" : "none";
+      document.querySelectorAll(".tab-btn").forEach(btn => btn.classList.remove("active"));
+      const activeBtn = [...document.querySelectorAll(".tab-btn")].find(btn => btn.textContent.toLowerCase().includes(tabId));
+      if (activeBtn) activeBtn.classList.add("active");
+    }
+
+    function openModal(src) {
+      document.getElementById('modalImage').src = src;
+      document.getElementById('downloadBtn').href = src;
+      document.getElementById('imageModal').style.display = 'flex';
+    }
+
+    function closeModal() {
+      document.getElementById('imageModal').style.display = 'none';
+    }
+
     function openRegisterModal() {
       document.getElementById("registerModal").style.display = "flex";
     }
@@ -293,6 +347,9 @@
         alert("Usuário ou senha incorretos!");
       }
     }
+
+    renderGallery(wallpapers, 'wallpapers');
+    renderGallery(icons, 'icons');
   </script>
 </body>
 </html>
