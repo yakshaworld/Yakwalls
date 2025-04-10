@@ -4,10 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>yaksha wallpapers - conheça os melhores wallpapers da atualidade na melhor qualidade</title>
-
-  <!-- Fonte Righteous -->
   <link href="https://fonts.googleapis.com/css2?family=Righteous&display=swap" rel="stylesheet">
-
   <style>
     body {
       margin: 0;
@@ -22,46 +19,63 @@
       padding: 10px 20px;
       display: flex;
       align-items: center;
-      justify-content: flex-start;
-    }
-
-    .title-container {
-      display: flex;
-      align-items: center;
-      gap: 15px;
+      position: relative;
     }
 
     .logo {
-      height: 100px;
-      width: auto;
+      height: 60px;
+      margin-right: 15px;
     }
 
-    .title-text {
+    .site-title {
       font-family: 'Righteous', cursive;
+      font-size: 24px;
+      display: flex;
+      flex-direction: column;
       line-height: 1;
     }
 
-    .title-text h1, .title-text h2 {
-      margin: 0;
-      font-size: 32px;
-      animation: colorSwap 3s infinite alternate;
+    .site-title span:first-child {
+      color: #007bff;
+      animation: colorSwap 2s infinite alternate;
     }
 
-    .title-text h2 {
-      font-size: 20px;
-      animation: colorSwapInverse 3s infinite alternate;
+    .site-title span:last-child {
+      color: #ff0033;
+      animation: colorSwapReverse 2s infinite alternate;
     }
 
     @keyframes colorSwap {
-      0% { color: #007bff; }
-      50% { color: #ff0000; }
-      100% { color: #007bff; }
+      from { color: #007bff; }
+      to { color: #ff0033; }
     }
 
-    @keyframes colorSwapInverse {
-      0% { color: #ff0000; }
-      50% { color: #007bff; }
-      100% { color: #ff0000; }
+    @keyframes colorSwapReverse {
+      from { color: #ff0033; }
+      to { color: #007bff; }
+    }
+
+    .auth-buttons {
+      margin-left: auto;
+      display: flex;
+      gap: 10px;
+      position: absolute;
+      top: 15px;
+      right: 20px;
+    }
+
+    .auth-btn {
+      background-color: #007bff;
+      border: none;
+      padding: 8px 15px;
+      color: white;
+      font-weight: bold;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    .auth-btn:hover {
+      background-color: #0056b3;
     }
 
     .tabs {
@@ -166,17 +180,70 @@
       padding: 20px;
       margin-top: 40px;
     }
+
+    /* Modal Criar Conta */
+    .modal-overlay {
+      display: none;
+      position: fixed;
+      z-index: 99999;
+      top: 0; left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: rgba(0,0,0,0.8);
+      justify-content: center;
+      align-items: center;
+    }
+
+    .modal {
+      background: #222;
+      padding: 30px;
+      border-radius: 10px;
+      text-align: center;
+      width: 300px;
+      position: relative;
+    }
+
+    .modal input {
+      width: 100%;
+      padding: 10px;
+      margin: 10px 0;
+      border: none;
+      border-radius: 5px;
+    }
+
+    .modal button {
+      padding: 10px;
+      background-color: #007bff;
+      border: none;
+      color: white;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    .modal button:hover {
+      background-color: #0056b3;
+    }
+
+    .modal-close {
+      position: absolute;
+      top: 10px;
+      right: 15px;
+      font-size: 20px;
+      color: white;
+      cursor: pointer;
+    }
   </style>
 </head>
 <body>
 
   <div class="title-bar">
-    <div class="title-container">
-      <img src="logo.gif" alt="Logo" class="logo">
-      <div class="title-text">
-        <h1>YAKSHA</h1>
-        <h2>WALLPAPERS</h2>
-      </div>
+    <img src="sualogo.gif" alt="Logo" class="logo">
+    <div class="site-title">
+      <span>YAKSHA</span>
+      <span>WALLPAPERS</span>
+    </div>
+    <div class="auth-buttons">
+      <button class="auth-btn" onclick="openRegisterModal()">Criar Conta</button>
     </div>
   </div>
 
@@ -193,6 +260,20 @@
     <a id="downloadBtn" href="" download>Baixar</a>
     <button id="closeBtn" onclick="closeModal()">Fechar</button>
   </div>
+
+  <div class="modal-overlay" id="registerModal">
+    <div class="modal">
+      <span class="modal-close" onclick="closeRegisterModal()">×</span>
+      <h3>Criar Conta</h3>
+      <input type="text" id="username" placeholder="Nome de usuário" />
+      <input type="password" id="password" placeholder="Senha" />
+      <button onclick="createAccount()">Registrar</button>
+    </div>
+  </div>
+
+  <footer>
+    © 2025 Yaksha Wallpaper. Todos os direitos reservados.
+  </footer>
 
   <script>
     const wallpapers = [
@@ -237,6 +318,35 @@
     function closeModal() {
       document.getElementById('imageModal').style.display = 'none';
     }
+
+    // Criação de conta
+    function openRegisterModal() {
+      document.getElementById("registerModal").style.display = "flex";
+    }
+
+    function closeRegisterModal() {
+      document.getElementById("registerModal").style.display = "none";
+    }
+
+    function createAccount() {
+      const username = document.getElementById("username").value.trim();
+      const password = document.getElementById("password").value.trim();
+
+      if (username && password) {
+        localStorage.setItem("user_" + username, password);
+        alert("Conta criada com sucesso!");
+        closeRegisterModal();
+      } else {
+        alert("Preencha todos os campos!");
+      }
+    }
+
+    window.addEventListener("click", function (e) {
+      const modal = document.getElementById("registerModal");
+      if (e.target === modal) {
+        modal.style.display = "none";
+      }
+    });
 
     renderGallery(wallpapers, 'wallpapers');
     renderGallery(icons, 'icons');
