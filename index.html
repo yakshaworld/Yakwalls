@@ -4,6 +4,8 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>yaksha wallpapers - conheça os melhores wallpapers da atualidade na melhor qualidade</title>
+  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
   <style>
     body {
       margin: 0;
@@ -39,41 +41,23 @@
 
     .gallery {
       display: grid;
-      grid-template-columns: repeat(1, 1fr);
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
       gap: 20px;
       padding: 20px;
-    }
-
-    @media (min-width: 600px) {
-      .gallery {
-        grid-template-columns: repeat(2, 1fr);
-      }
-    }
-
-    @media (min-width: 900px) {
-      .gallery {
-        grid-template-columns: repeat(3, 1fr);
-      }
-    }
-
-    @media (min-width: 1200px) {
-      .gallery {
-        grid-template-columns: repeat(4, 1fr);
-      }
     }
 
     .card {
       background: #1a1a1a;
       padding: 10px;
-      box-shadow: 0 2px 5px rgba(255, 255, 255, 0.05);
       border-radius: 8px;
       text-align: center;
-      color: white;
+      box-shadow: 0 2px 5px rgba(255, 255, 255, 0.05);
     }
 
     .card img {
       max-width: 100%;
       border-radius: 8px;
+      cursor: pointer;
     }
 
     .card-content {
@@ -82,7 +66,6 @@
 
     .download-btn {
       display: inline-block;
-      margin: 5px;
       padding: 8px 12px;
       border: none;
       border-radius: 4px;
@@ -125,6 +108,32 @@
     #topBtn:hover {
       background-color: #0056b3;
     }
+
+    /* Modal */
+    #wallpaperModal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background-color: rgba(0, 0, 0, 0.9);
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+      flex-direction: column;
+    }
+
+    #wallpaperModal img {
+      max-width: 90vw;
+      max-height: 80vh;
+      border-radius: 10px;
+      margin-bottom: 20px;
+    }
+
+    #wallpaperModal .download-btn {
+      margin-bottom: 10px;
+    }
   </style>
 </head>
 <body>
@@ -138,11 +147,15 @@
     </div>
   </div>
 
-  <h2 style="text-align:center">WALLPAPER</h2>
   <div class="gallery" id="gallery-wallpaper"></div>
-
-  <h2 style="text-align:center">ICONS</h2>
   <div class="gallery" id="gallery-icons"></div>
+
+  <!-- Modal -->
+  <div id="wallpaperModal">
+    <img id="modalImage" src="" alt="Imagem em destaque" />
+    <a id="downloadLink" href="#" download class="download-btn">Baixar</a>
+    <button onclick="closeModal()" style="background:red; color:white; border:none; padding:10px 20px; border-radius:5px;">Fechar</button>
+  </div>
 
   <button id="topBtn" onclick="scrollToTop()">Voltar ao Topo</button>
 
@@ -157,8 +170,6 @@
     <div>© 2025 Yaksha Wallpaper. Todos os direitos reservados.</div>
   </footer>
 
-  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
   <script>
     const firebaseConfig = {
       apiKey: "AIzaSyDBsoFDMsioHhBhnsb4t01n_iOMEHcM_fA",
@@ -216,14 +227,14 @@
       "imagem21.jpg", "imagem22.jpg", "imagem23.jpg", "imagem24.jpg", "imagem25.jpg"
     ];
 
-    function renderGallerySection(containerId, images) {
+    function renderGallerySection(containerId, images, prefix) {
       const container = document.getElementById(containerId);
       container.innerHTML = '';
       images.forEach((src, index) => {
         const card = document.createElement('div');
         card.className = 'card';
         card.innerHTML = `
-          <img src="${src}" alt="Imagem ${index + 1}" />
+          <img src="${src}" alt="Imagem ${index + 1}" onclick="openModal('${src}')" />
           <div class="card-content">
             <a class="download-btn" href="${src}" download>Baixar</a>
           </div>
@@ -232,17 +243,27 @@
       });
     }
 
-    renderGallerySection('gallery-wallpaper', wallpapers);
-    renderGallerySection('gallery-icons', icons);
+    function openModal(imageSrc) {
+      document.getElementById("modalImage").src = imageSrc;
+      document.getElementById("downloadLink").href = imageSrc;
+      document.getElementById("wallpaperModal").style.display = "flex";
+    }
 
-    const topBtn = document.getElementById("topBtn");
-    window.onscroll = function () {
-      topBtn.style.display = window.scrollY > 100 ? "block" : "none";
-    };
+    function closeModal() {
+      document.getElementById("wallpaperModal").style.display = "none";
+    }
 
     function scrollToTop() {
       window.scrollTo({ top: 0, behavior: 'smooth' });
     }
+
+    window.onscroll = function () {
+      const topBtn = document.getElementById("topBtn");
+      topBtn.style.display = window.scrollY > 100 ? "block" : "none";
+    };
+
+    renderGallerySection('gallery-wallpaper', wallpapers, 'wallpaper');
+    renderGallerySection('gallery-icons', icons, 'icon');
   </script>
 </body>
 </html>
