@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>yaksha wallpapers - conheça os melhores wallpapers da atualidade na melhor qualidade</title>
+  <title>yaksha wallpapers - conheça os melhores wallpapers da atualidade</title>
   <link href="https://fonts.googleapis.com/css2?family=Righteous&display=swap" rel="stylesheet">
   <style>
     body {
@@ -23,7 +23,7 @@
     }
 
     .logo {
-      height: 60px;
+      height: 80px;
       margin-right: 15px;
     }
 
@@ -193,7 +193,6 @@
   </style>
 </head>
 <body>
-
   <div class="title-bar">
     <img src="sualogo.gif" alt="Logo" class="logo">
     <div class="site-title">
@@ -208,24 +207,26 @@
     </div>
   </div>
 
+  <!-- Cards -->
   <div class="gallery">
-    <div class="card" onclick="openImage('wallpaper1.jpg')">
-      <img src="wallpaper1.jpg" alt="Wallpaper 1">
+    <div class="card" onclick="openImage('wallpapers/wallpaper1.gif')">
+      <img src="wallpapers/wallpaper1.gif" alt="Wallpaper 1">
     </div>
-    <div class="card" onclick="openImage('wallpaper2.jpg')">
-      <img src="wallpaper2.jpg" alt="Wallpaper 2">
+    <div class="card" onclick="openImage('wallpapers/wallpaper2.gif')">
+      <img src="wallpapers/wallpaper2.gif" alt="Wallpaper 2">
     </div>
-    <div class="card" onclick="openImage('wallpaper3.jpg')">
-      <img src="wallpaper3.jpg" alt="Wallpaper 3">
+    <div class="card" onclick="openImage('wallpapers/wallpaper3.gif')">
+      <img src="wallpapers/wallpaper3.gif" alt="Wallpaper 3">
     </div>
   </div>
 
   <div id="imageModal" onclick="closeImage()">
-    <img id="modalImage" src="" alt="Preview">
-    <a id="downloadBtn" href="#" download>Baixar</a>
-    <button id="closeBtn">Fechar</button>
+    <img id="modalImage" src="" alt="Wallpaper grande">
+    <button id="downloadBtn" onclick="event.stopPropagation(); downloadImage()">Download</button>
+    <button id="closeBtn" onclick="event.stopPropagation(); closeImage()">Fechar</button>
   </div>
 
+  <!-- Modais de login e registro -->
   <div class="modal-overlay" id="registerModal">
     <div class="modal">
       <span class="modal-close" onclick="closeRegisterModal()">×</span>
@@ -247,6 +248,23 @@
   </div>
 
   <script>
+    function openImage(src) {
+      document.getElementById("modalImage").src = src;
+      document.getElementById("imageModal").style.display = "flex";
+    }
+
+    function closeImage() {
+      document.getElementById("imageModal").style.display = "none";
+    }
+
+    function downloadImage() {
+      const imgSrc = document.getElementById("modalImage").src;
+      const a = document.createElement("a");
+      a.href = imgSrc;
+      a.download = "wallpaper.gif";
+      a.click();
+    }
+
     function openRegisterModal() {
       document.getElementById("registerModal").style.display = "flex";
     }
@@ -299,19 +317,6 @@
       document.getElementById("logoutBtn").style.display = "none";
       document.getElementById("loginBtn").style.display = "inline-block";
       document.getElementById("registerBtn").style.display = "inline-block";
-    }
-
-    function openImage(src) {
-      const modal = document.getElementById("imageModal");
-      const image = document.getElementById("modalImage");
-      const downloadLink = document.getElementById("downloadBtn");
-      image.src = src;
-      downloadLink.href = src;
-      modal.style.display = "flex";
-    }
-
-    function closeImage() {
-      document.getElementById("imageModal").style.display = "none";
     }
   </script>
 </body>
