@@ -19,6 +19,20 @@
       text-align: center;
     }
 
+    .title-bar h1 {
+      background: linear-gradient(90deg, #00ffff, #ff00ff, #00ffff);
+      background-size: 300% 100%;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      animation: animateTitle 4s ease infinite;
+    }
+
+    @keyframes animateTitle {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
     .tabs {
       display: flex;
       justify-content: center;
@@ -96,7 +110,7 @@
       background-color: #0056b3;
     }
 
-     #topBtn {
+    #topBtn {
       position: fixed;
       bottom: 30px;
       right: 30px;
@@ -121,7 +135,6 @@
       padding: 20px;
       margin-top: 40px;
     }
-    
   </style>
 </head>
 <body>
