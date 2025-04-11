@@ -5,7 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>yaksha wallpapers - conheça os melhores wallpapers da atualidade na melhor qualidade</title>
 
-  <!-- Fonte Righteous -->
   <link href="https://fonts.googleapis.com/css2?family=Righteous&display=swap" rel="stylesheet">
 
   <style>
@@ -22,7 +21,7 @@
       padding: 10px 20px;
       display: flex;
       align-items: center;
-      justify-content: flex-start;
+      justify-content: space-between;
     }
 
     .title-container {
@@ -62,6 +61,20 @@
       0% { color: #ff0000; }
       50% { color: #007bff; }
       100% { color: #ff0000; }
+    }
+
+    .user-section {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .user-avatar {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      object-fit: cover;
+      cursor: pointer;
     }
 
     .tabs {
@@ -137,39 +150,18 @@
       cursor: pointer;
     }
 
-    #downloadBtn:hover, #closeBtn:hover {
-      background-color: #0056b3;
-    }
-
     #topBtn {
       position: fixed;
       bottom: 30px;
       right: 30px;
+      display: none;
       background-color: #007bff;
       color: white;
       border: none;
-      padding: 12px;
-      border-radius: 50%;
+      padding: 10px;
+      border-radius: 5px;
       cursor: pointer;
       z-index: 10000;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
-      opacity: 0;
-      pointer-events: none;
-      transition: opacity 0.3s ease;
-    }
-
-    #topBtn svg {
-      width: 20px;
-      height: 20px;
-      fill: white;
-    }
-
-    #topBtn.show {
-      opacity: 1;
-      pointer-events: auto;
     }
 
     #topBtn:hover {
@@ -183,6 +175,46 @@
       padding: 20px;
       margin-top: 40px;
     }
+
+    .modal {
+      display: none;
+      position: fixed;
+      top: 0; left: 0;
+      width: 100vw; height: 100vh;
+      background: rgba(0, 0, 0, 0.85);
+      justify-content: center;
+      align-items: center;
+      z-index: 9999;
+    }
+
+    .modal-content {
+      background: #222;
+      padding: 20px;
+      border-radius: 10px;
+      text-align: center;
+      width: 90%;
+      max-width: 400px;
+    }
+
+    input[type="text"], input[type="file"] {
+      margin-top: 10px;
+      padding: 10px;
+      width: 90%;
+    }
+
+    .btn {
+      margin-top: 10px;
+      padding: 10px 20px;
+      background-color: #007bff;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    .btn:hover {
+      background-color: #0056b3;
+    }
   </style>
 </head>
 <body>
@@ -194,6 +226,10 @@
         <h1>YAKSHA</h1>
         <h2>WALLPAPERS</h2>
       </div>
+    </div>
+    <div class="user-section">
+      <button class="btn" onclick="openLogin()">Login</button>
+      <img id="userAvatar" src="default-avatar.png" alt="Avatar" class="user-avatar" onclick="openProfile()" style="display:none;">
     </div>
   </div>
 
@@ -211,15 +247,28 @@
     <button id="closeBtn" onclick="closeModal()">Fechar</button>
   </div>
 
-  <button id="topBtn" onclick="scrollToTop()" aria-label="Voltar ao topo">
-    <svg viewBox="0 0 24 24">
-      <path d="M12 4l-8 8h6v8h4v-8h6z" />
-    </svg>
-  </button>
+  <button id="topBtn" onclick="window.scrollTo({top: 0, behavior: 'smooth'})">↑</button>
 
-  <footer>
-    <p>© 2025 Yaksha Wallpapers. Todos os direitos reservados.</p>
-  </footer>
+  <!-- Login Modal -->
+  <div id="loginModal" class="modal">
+    <div class="modal-content">
+      <h2>Login / Criar Conta</h2>
+      <input type="text" id="usernameInput" placeholder="Seu nome">
+      <button class="btn" onclick="login()">Entrar</button>
+    </div>
+  </div>
+
+  <div id="profileModal" class="modal">
+    <div class="modal-content">
+      <h2>Seu Perfil</h2>
+      <img id="profilePic" src="" alt="Perfil" style="width:100px;height:100px;border-radius:50%;">
+      <input type="file" id="profileImageInput" accept="image/*">
+      <input type="text" id="profileNameInput" placeholder="Seu nome">
+      <button class="btn" onclick="saveProfile()">Salvar</button>
+    </div>
+  </div>
+
+  <footer>© 2025 Yaksha. Todos os direitos reservados.</footer>
 
   <script>
     const wallpapers = [
@@ -265,21 +314,64 @@
       document.getElementById('imageModal').style.display = 'none';
     }
 
-    function scrollToTop() {
-      window.scrollTo({ top: 0, behavior: 'smooth' });
+    function openLogin() {
+      document.getElementById('loginModal').style.display = 'flex';
+    }
+
+    function login() {
+      const name = document.getElementById('usernameInput').value;
+      if (name) {
+        localStorage.setItem('username', name);
+        localStorage.setItem('avatar', 'default-avatar.png');
+        document.getElementById('loginModal').style.display = 'none';
+        updateUser();
+      }
+    }
+
+    function updateUser() {
+      const name = localStorage.getItem('username');
+      const avatar = localStorage.getItem('avatar');
+      if (name) {
+        document.querySelector('.btn').style.display = 'none';
+        const avatarImg = document.getElementById('userAvatar');
+        avatarImg.src = avatar || 'default-avatar.png';
+        avatarImg.style.display = 'block';
+      }
+    }
+
+    function openProfile() {
+      document.getElementById('profileModal').style.display = 'flex';
+      document.getElementById('profileNameInput').value = localStorage.getItem('username') || '';
+      document.getElementById('profilePic').src = localStorage.getItem('avatar') || 'default-avatar.png';
+    }
+
+    function saveProfile() {
+      const newName = document.getElementById('profileNameInput').value;
+      const file = document.getElementById('profileImageInput').files[0];
+
+      if (newName) localStorage.setItem('username', newName);
+      if (file) {
+        const reader = new FileReader();
+        reader.onload = () => {
+          localStorage.setItem('avatar', reader.result);
+          updateUser();
+        };
+        reader.readAsDataURL(file);
+      } else {
+        updateUser();
+      }
+
+      document.getElementById('profileModal').style.display = 'none';
     }
 
     window.onscroll = function () {
-      const topBtn = document.getElementById("topBtn");
-      if (document.body.scrollTop > 300 || document.documentElement.scrollTop > 300) {
-        topBtn.classList.add("show");
-      } else {
-        topBtn.classList.remove("show");
-      }
-    };
+      document.getElementById("topBtn").style.display = (document.documentElement.scrollTop > 200) ? "block" : "none";
+    }
 
     renderGallery(wallpapers, 'wallpapers');
     renderGallery(icons, 'icons');
+    updateUser();
   </script>
+
 </body>
 </html>
