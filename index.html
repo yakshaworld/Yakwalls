@@ -145,14 +145,31 @@
       position: fixed;
       bottom: 30px;
       right: 30px;
-      display: none;
       background-color: #007bff;
       color: white;
       border: none;
-      padding: 10px;
-      border-radius: 5px;
+      padding: 12px;
+      border-radius: 50%;
       cursor: pointer;
       z-index: 10000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s ease;
+    }
+
+    #topBtn svg {
+      width: 20px;
+      height: 20px;
+      fill: white;
+    }
+
+    #topBtn.show {
+      opacity: 1;
+      pointer-events: auto;
     }
 
     #topBtn:hover {
@@ -193,6 +210,16 @@
     <a id="downloadBtn" href="" download>Baixar</a>
     <button id="closeBtn" onclick="closeModal()">Fechar</button>
   </div>
+
+  <button id="topBtn" onclick="scrollToTop()" aria-label="Voltar ao topo">
+    <svg viewBox="0 0 24 24">
+      <path d="M12 4l-8 8h6v8h4v-8h6z" />
+    </svg>
+  </button>
+
+  <footer>
+    <p>© 2025 Yaksha Wallpapers. Todos os direitos reservados.</p>
+  </footer>
 
   <script>
     const wallpapers = [
@@ -237,6 +264,19 @@
     function closeModal() {
       document.getElementById('imageModal').style.display = 'none';
     }
+
+    function scrollToTop() {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    window.onscroll = function () {
+      const topBtn = document.getElementById("topBtn");
+      if (document.body.scrollTop > 300 || document.documentElement.scrollTop > 300) {
+        topBtn.classList.add("show");
+      } else {
+        topBtn.classList.remove("show");
+      }
+    };
 
     renderGallery(wallpapers, 'wallpapers');
     renderGallery(icons, 'icons');
