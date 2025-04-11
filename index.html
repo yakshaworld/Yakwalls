@@ -4,7 +4,9 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>yaksha wallpapers - conheça os melhores wallpapers da atualidade na melhor qualidade</title>
+
   <link href="https://fonts.googleapis.com/css2?family=Righteous&display=swap" rel="stylesheet">
+
   <style>
     body {
       margin: 0;
@@ -12,52 +14,75 @@
       background-color: #000;
       color: white;
     }
+
     .title-bar {
       background-color: #111;
       color: white;
       padding: 10px 20px;
       display: flex;
       align-items: center;
-      justify-content: flex-start;
+      justify-content: space-between;
     }
+
     .title-container {
       display: flex;
       align-items: center;
       gap: 15px;
     }
+
     .logo {
       height: 70px;
       width: auto;
     }
+
     .title-text {
       font-family: 'Righteous', cursive;
       line-height: 1;
     }
+
     .title-text h1, .title-text h2 {
       margin: 0;
       font-size: 32px;
       animation: colorSwap 3s infinite alternate;
     }
+
     .title-text h2 {
       font-size: 20px;
       animation: colorSwapInverse 3s infinite alternate;
     }
+
     @keyframes colorSwap {
       0% { color: #007bff; }
       50% { color: #ff0000; }
       100% { color: #007bff; }
     }
+
     @keyframes colorSwapInverse {
       0% { color: #ff0000; }
       50% { color: #007bff; }
       100% { color: #ff0000; }
     }
+
+    .user-section {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .user-avatar {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      object-fit: cover;
+      cursor: pointer;
+    }
+
     .tabs {
       display: flex;
       justify-content: center;
       background-color: #222;
-      flex-wrap: wrap;
     }
+
     .tab-btn {
       padding: 10px 20px;
       background: none;
@@ -66,15 +91,18 @@
       font-weight: bold;
       cursor: pointer;
     }
+
     .tab-btn.active {
       background-color: #007bff;
     }
+
     .gallery {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
       gap: 20px;
       padding: 20px;
     }
+
     .card {
       background: #1a1a1a;
       border-radius: 8px;
@@ -82,14 +110,17 @@
       cursor: pointer;
       transition: transform 0.2s ease;
     }
+
     .card:hover {
       transform: scale(1.02);
     }
+
     .card img {
       width: 100%;
       height: auto;
       display: block;
     }
+
     #imageModal {
       display: none;
       position: fixed;
@@ -101,12 +132,14 @@
       align-items: center;
       flex-direction: column;
     }
+
     #imageModal img {
       max-width: 90%;
       max-height: 80vh;
       border-radius: 10px;
       margin-bottom: 20px;
     }
+
     #downloadBtn, #closeBtn {
       background-color: #007bff;
       color: white;
@@ -116,9 +149,7 @@
       margin: 5px;
       cursor: pointer;
     }
-    #downloadBtn:hover, #closeBtn:hover {
-      background-color: #0056b3;
-    }
+
     #topBtn {
       position: fixed;
       bottom: 30px;
@@ -132,9 +163,11 @@
       cursor: pointer;
       z-index: 10000;
     }
+
     #topBtn:hover {
       background-color: #0056b3;
     }
+
     footer {
       text-align: center;
       background-color: #111;
@@ -142,33 +175,114 @@
       padding: 20px;
       margin-top: 40px;
     }
-    #uploadModal > div {
-      box-shadow: 0 0 15px rgba(0,0,0,0.5);
+
+    .modal {
+      display: none;
+      position: fixed;
+      top: 0; left: 0;
+      width: 100vw; height: 100vh;
+      background: rgba(0, 0, 0, 0.85);
+      justify-content: center;
+      align-items: center;
+      z-index: 9999;
+    }
+
+    .modal-content {
+      background: #222;
+      padding: 20px;
+      border-radius: 10px;
+      text-align: center;
+      width: 90%;
+      max-width: 400px;
+    }
+
+    input[type="text"], input[type="file"] {
+      margin-top: 10px;
+      padding: 10px;
+      width: 90%;
+    }
+
+    .btn {
+      margin-top: 10px;
+      padding: 10px 20px;
+      background-color: #007bff;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    .btn:hover {
+      background-color: #0056b3;
     }
   </style>
 </head>
 <body>
-<!-- Adicione este trecho dentro do <body>, no topo (antes da barra de título) -->
-<div id="authBar" style="position: fixed; top: 15px; left: 20px; z-index: 9999;">
-  <span id="userInfo" style="color:white; margin-right: 10px;"></span>
-  <button onclick="openAuthModal()" style="padding: 10px 15px; background: #007bff; color: white; border: none; border-radius: 5px;">Login</button>
-  <button onclick="logout()" style="padding: 10px 15px; background: #dc3545; color: white; border: none; border-radius: 5px; display: none;">Logout</button>
-</div>
 
-<!-- Modal de login/cadastro -->
-<div id="authModal" style="display: none; position: fixed; top:0; left:0; width:100vw; height:100vh; background: rgba(0,0,0,0.9); z-index: 9999; justify-content:center; align-items:center; flex-direction: column;">
-  <div style="background: #111; padding: 20px; border-radius: 10px; text-align:center;">
-    <h2>Entrar / Criar Conta</h2>
-    <input type="text" id="authUsername" placeholder="Nome de usuário" style="padding: 8px; width: 100%; margin-bottom: 10px;"><br>
-    <input type="file" id="authAvatar" accept="image/*" style="margin-bottom: 10px;"><br>
-    <button onclick="login()" style="padding: 10px 15px;">Entrar</button>
-    <button onclick="closeAuthModal()" style="padding: 10px 15px; margin-left: 10px;">Cancelar</button>
+  <div class="title-bar">
+    <div class="title-container">
+      <img src="logo.gif" alt="Logo" class="logo">
+      <div class="title-text">
+        <h1>YAKSHA</h1>
+        <h2>WALLPAPERS</h2>
+      </div>
+    </div>
+    <div class="user-section">
+      <button class="btn" onclick="openLogin()">Login</button>
+      <img id="userAvatar" src="default-avatar.png" alt="Avatar" class="user-avatar" onclick="openProfile()" style="display:none;">
+    </div>
   </div>
-</div>
+
+  <div class="tabs">
+    <button class="tab-btn active" onclick="showTab('wallpapers')">Wallpapers</button>
+    <button class="tab-btn" onclick="showTab('icons')">Icons</button>
+  </div>
+
+  <div id="wallpapers" class="gallery"></div>
+  <div id="icons" class="gallery" style="display:none;"></div>
+
+  <div id="imageModal">
+    <img id="modalImage" src="" alt="Imagem em tela cheia">
+    <a id="downloadBtn" href="" download>Baixar</a>
+    <button id="closeBtn" onclick="closeModal()">Fechar</button>
+  </div>
+
+  <button id="topBtn" onclick="window.scrollTo({top: 0, behavior: 'smooth'})">↑</button>
+
+  <!-- Login Modal -->
+  <div id="loginModal" class="modal">
+    <div class="modal-content">
+      <h2>Login / Criar Conta</h2>
+      <input type="text" id="usernameInput" placeholder="Seu nome">
+      <button class="btn" onclick="login()">Entrar</button>
+    </div>
+  </div>
+
+  <div id="profileModal" class="modal">
+    <div class="modal-content">
+      <h2>Seu Perfil</h2>
+      <img id="profilePic" src="" alt="Perfil" style="width:100px;height:100px;border-radius:50%;">
+      <input type="file" id="profileImageInput" accept="image/*">
+      <input type="text" id="profileNameInput" placeholder="Seu nome">
+      <button class="btn" onclick="saveProfile()">Salvar</button>
+    </div>
+  </div>
+
+  <footer>© 2025 Yaksha. Todos os direitos reservados.</footer>
 
   <script>
-    const wallpapers = ["imagem1.jpg", "imagem2.jpg"];
-    const icons = ["imagem15.jpg", "imagem16.jpg"];
+    const wallpapers = [
+      "imagem1.jpg", "imagem2.jpg", "imagem3.jpg", "imagem4.jpg", "imagem5.png", "imagem6.png",
+      "imagem7.png", "imagem8.png", "imagem9.png", "imagem10.jpg", "imagem11.jpg", "imagem12.png",
+      "imagem13.webp", "imagem14.png", "imagem26.webp", "imagem27.jpg", "imagem28.jpg", "imagem29.jpg",
+      "imagem30.jpg", "imagem31.jpg"
+    ];
+
+    const icons = [
+      "imagem15.jpg", "imagem16.jpg", "imagem17.jpg", "imagem18.jpg", "imagem19.jpg", "imagem20.jpg",
+      "imagem21.jpg", "imagem22.jpg", "imagem23.jpg", "imagem24.jpg", "imagem25.jpg", "imagem32.webp", 
+      "imagem33.jpg", "imagem34.jpeg", "imagem35.jpg", "imagem36.jpg"
+    ];
 
     function renderGallery(images, containerId) {
       const container = document.getElementById(containerId);
@@ -182,27 +296,13 @@
       });
     }
 
-    function renderGalleryWithExtras() {
-      const extraWallpapers = JSON.parse(localStorage.getItem("wallpapersExtra") || "[]");
-      const extraIcons = JSON.parse(localStorage.getItem("iconsExtra") || "[]");
-      renderGallery([...wallpapers, ...extraWallpapers], 'wallpapers');
-      renderGallery([...icons, ...extraIcons], 'icons');
-    }
-
     function showTab(tabId) {
-      localStorage.setItem("activeTab", tabId);
-      ['wallpapers', 'icons', 'pending'].forEach(id => {
-        document.getElementById(id).style.display = id === tabId ? 'grid' : 'none';
-      });
+      document.getElementById("wallpapers").style.display = tabId === "wallpapers" ? "grid" : "none";
+      document.getElementById("icons").style.display = tabId === "icons" ? "grid" : "none";
       document.querySelectorAll(".tab-btn").forEach(btn => btn.classList.remove("active"));
       const activeBtn = [...document.querySelectorAll(".tab-btn")].find(btn => btn.textContent.toLowerCase().includes(tabId));
       if (activeBtn) activeBtn.classList.add("active");
     }
-
-    window.addEventListener("DOMContentLoaded", () => {
-      const savedTab = localStorage.getItem("activeTab") || "wallpapers";
-      showTab(savedTab);
-    });
 
     function openModal(src) {
       document.getElementById('modalImage').src = src;
@@ -214,122 +314,64 @@
       document.getElementById('imageModal').style.display = 'none';
     }
 
-    function openUploadModal() {
-      document.getElementById('uploadModal').style.display = 'flex';
+    function openLogin() {
+      document.getElementById('loginModal').style.display = 'flex';
     }
-    function closeUploadModal() {
-      document.getElementById('uploadModal').style.display = 'none';
-    }
-    function submitImage() {
-      const fileInput = document.getElementById('uploadFile');
-      const type = document.querySelector('input[name="uploadType"]:checked').value;
-      const file = fileInput.files[0];
-      if (!file) return alert("Selecione uma imagem.");
-      const reader = new FileReader();
-      reader.onload = function(e) {
-        const base64 = e.target.result;
-        const pending = JSON.parse(localStorage.getItem("pendingUploads") || "[]");
-        pending.push({ src: base64, type });
-        localStorage.setItem("pendingUploads", JSON.stringify(pending));
-        alert("Imagem enviada para aprovação!");
-        closeUploadModal();
-        renderPending();
-      };
-      reader.readAsDataURL(file);
-    }
-    function renderPending() {
-      const container = document.getElementById("pending");
-      container.innerHTML = '';
-      const pending = JSON.parse(localStorage.getItem("pendingUploads") || "[]");
-      pending.forEach((img, index) => {
-        const card = document.createElement("div");
-        card.className = "card";
-        card.innerHTML = `
-          <img src="${img.src}" alt="Enviado">
-          <div style="display: flex; justify-content: space-around; padding: 10px;">
-            <button onclick="approveImage(${index})" style="background:#28a745; color:white; border:none; padding:6px 10px; border-radius:4px;">Aprovar</button>
-            <button onclick="rejectImage(${index})" style="background:#dc3545; color:white; border:none; padding:6px 10px; border-radius:4px;">Rejeitar</button>
-          </div>
-        `;
-        container.appendChild(card);
-      });
-    }
-    function approveImage(index) {
-      const pending = JSON.parse(localStorage.getItem("pendingUploads") || "[]");
-      const approved = pending.splice(index, 1)[0];
-      const key = approved.type === 'wallpapers' ? 'wallpapersExtra' : 'iconsExtra';
-      const existing = JSON.parse(localStorage.getItem(key) || "[]");
-      if (!existing.includes(approved.src)) {
-        existing.push(approved.src);
+
+    function login() {
+      const name = document.getElementById('usernameInput').value;
+      if (name) {
+        localStorage.setItem('username', name);
+        localStorage.setItem('avatar', 'default-avatar.png');
+        document.getElementById('loginModal').style.display = 'none';
+        updateUser();
       }
-      localStorage.setItem(key, JSON.stringify(existing));
-      localStorage.setItem("pendingUploads", JSON.stringify(pending));
-      renderGalleryWithExtras();
-      renderPending();
-    }
-    function rejectImage(index) {
-      const pending = JSON.parse(localStorage.getItem("pendingUploads") || "[]");
-      pending.splice(index, 1);
-      localStorage.setItem("pendingUploads", JSON.stringify(pending));
-      renderPending();
     }
 
-    window.addEventListener("scroll", () => {
-      document.getElementById("topBtn").style.display = window.scrollY > 200 ? "block" : "none";
-    });
+    function updateUser() {
+      const name = localStorage.getItem('username');
+      const avatar = localStorage.getItem('avatar');
+      if (name) {
+        document.querySelector('.btn').style.display = 'none';
+        const avatarImg = document.getElementById('userAvatar');
+        avatarImg.src = avatar || 'default-avatar.png';
+        avatarImg.style.display = 'block';
+      }
+    }
 
-    renderGalleryWithExtras();
-    renderPending();
+    function openProfile() {
+      document.getElementById('profileModal').style.display = 'flex';
+      document.getElementById('profileNameInput').value = localStorage.getItem('username') || '';
+      document.getElementById('profilePic').src = localStorage.getItem('avatar') || 'default-avatar.png';
+    }
 
-function openAuthModal() {
-  document.getElementById('authModal').style.display = 'flex';
-}
-function closeAuthModal() {
-  document.getElementById('authModal').style.display = 'none';
-}
-function login() {
-  const username = document.getElementById('authUsername').value.trim();
-  const avatarFile = document.getElementById('authAvatar').files[0];
-  if (!username) return alert("Digite seu nome.");
+    function saveProfile() {
+      const newName = document.getElementById('profileNameInput').value;
+      const file = document.getElementById('profileImageInput').files[0];
 
-  if (avatarFile) {
-    const reader = new FileReader();
-    reader.onload = function(e) {
-      const avatar = e.target.result;
-      localStorage.setItem("user", JSON.stringify({ username, avatar }));
-      updateUserUI();
-      closeAuthModal();
-    };
-    reader.readAsDataURL(avatarFile);
-  } else {
-    localStorage.setItem("user", JSON.stringify({ username }));
-    updateUserUI();
-    closeAuthModal();
-  }
-}
-function logout() {
-  localStorage.removeItem("user");
-  updateUserUI();
-}
-function updateUserUI() {
-  const user = JSON.parse(localStorage.getItem("user"));
-  const userInfo = document.getElementById("userInfo");
-  const loginBtn = document.querySelector("#authBar button:nth-child(2)");
-  const logoutBtn = document.querySelector("#authBar button:nth-child(3)");
+      if (newName) localStorage.setItem('username', newName);
+      if (file) {
+        const reader = new FileReader();
+        reader.onload = () => {
+          localStorage.setItem('avatar', reader.result);
+          updateUser();
+        };
+        reader.readAsDataURL(file);
+      } else {
+        updateUser();
+      }
 
-  if (user) {
-    userInfo.innerHTML = user.avatar ? `<img src="${user.avatar}" alt="Avatar" style="height: 30px; border-radius: 50%; vertical-align: middle; margin-right: 5px;"> ${user.username}` : user.username;
-    loginBtn.style.display = "none";
-    logoutBtn.style.display = "inline-block";
-  } else {
-    userInfo.innerHTML = "";
-    loginBtn.style.display = "inline-block";
-    logoutBtn.style.display = "none";
-  }
-}
+      document.getElementById('profileModal').style.display = 'none';
+    }
 
-updateUserUI();
+    window.onscroll = function () {
+      document.getElementById("topBtn").style.display = (document.documentElement.scrollTop > 200) ? "block" : "none";
+    }
 
+    renderGallery(wallpapers, 'wallpapers');
+    renderGallery(icons, 'icons');
+    updateUser();
   </script>
+
 </body>
 </html>
